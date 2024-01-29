@@ -15,6 +15,7 @@ include_directories(${Boost_INCLUDE_DIRS})
 add_library(client-lib STATIC ${SOURCES} ${HEADERS})
 
 target_include_directories(client-lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_precompile_headers(client-lib PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include/pch.h)
 
 add_executable(client src/main.cpp)
 
