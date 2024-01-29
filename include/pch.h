@@ -2,7 +2,11 @@
 #define PCH_H
 
 #include <iostream>
+#include <cctype>
+#include <algorithm>
+#include <numeric>
+#include <mutex>
+#include <condition_variable>
 #include "boost/asio.hpp"
-#include "boost/system.hpp"
 
 #endif //PCH_H
