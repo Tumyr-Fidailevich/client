@@ -6,18 +6,17 @@
 class SharedBuffer
 {
 public:
-    SharedBuffer() : dataReady_(false) {}
+    SharedBuffer() {}
 
-    void setData(const std::string& data);
+    void setData(const std::string& data) noexcept;
 
-    std::string getData();
+    std::string getData() const noexcept;
 
-    void clear();
+    void clear() noexcept;
 
 private:
-    std::mutex mutex_;
-    std::condition_variable condition_;
-    bool dataReady_;
+    mutable std::mutex mutex_;
+    mutable std::condition_variable condition_;
     std::string data_;
 };
 

@@ -7,7 +7,7 @@ void SharedBuffer::setData(const std::string& data)
     condition_.notify_one();
 }
 
-std::string SharedBuffer::getData()
+std::string SharedBuffer::getData() const
 {
     std::unique_lock<std::mutex> lock(mutex_);
     condition_.wait(lock, [this] { return !data_.empty(); });
