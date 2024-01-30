@@ -7,16 +7,17 @@ void DataProcessor::run()
         auto receivedData = buffer_.getData();
         buffer_.clear();
         
-        std::cout << receivedData << std::endl;
+        ostream_ << "Data received: " << receivedData << std::endl;
 
         auto sum = calculateAmount(receivedData);
 
+        ostream_ << "Calculated sum: " << sum << std::endl;
         socket_.write_some(boost::asio::buffer(&sum, sizeof(int)));
     }
     
 }
 
-int DataProcessor::calculateAmount(const std::string &receivedData) const
+int DataProcessor::calculateAmount(const std::string &receivedData) noexcept
 {
     return std::accumulate(receivedData.begin(), receivedData.end(), 0, [](int acc, char c) {
                 if (std::isdigit(c)) {

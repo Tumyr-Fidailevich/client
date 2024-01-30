@@ -3,17 +3,20 @@
 
 #include "pch.h"
 #include "shared_buffer.h"
+#include "sync_ostream.h"
 
 class InputListener {
 public:
-    InputListener(SharedBuffer& buffer) : buffer_(buffer) {}
+    InputListener(SharedBuffer& buffer, SyncOstream& ostream) : buffer_(buffer), ostream_(ostream) {}
 
     void run();
 
-private:
-    void replaceEven(std::string &input) noexcept;
+protected:
+    static void replaceEven(std::string &input) noexcept;
 
+private:
     SharedBuffer& buffer_;
+    SyncOstream& ostream_;
 };
 
 #endif //INPUT_LISTENER_H

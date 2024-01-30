@@ -5,9 +5,9 @@ void InputListener::run()
     while(true)
     {
         std::string input;
+        ostream_ << "Input your data: ";
         std::getline(std::cin, input);
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        if(!std::all_of(input.begin(), input.end(), ::isdigit) || input.length() > 64)
+        if(!std::all_of(input.begin(), input.end(), ::isdigit) || input.length() > 64 || input.length() == 0)
         {
             std::cerr << "Incorrect input" << std::endl;
             continue;
@@ -18,10 +18,12 @@ void InputListener::run()
         replaceEven(input);
 
         buffer_.setData(input);
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
 }
 
-void InputListener::replaceEven(std::string &input)
+void InputListener::replaceEven(std::string &input) noexcept
 {
     for(auto it = input.begin(); it != input.end(); ++it)
     {

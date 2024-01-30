@@ -1,19 +1,26 @@
 #include "data_processor.h"
 #include "shared_buffer.h"
 #include "input_listener.h"
+#include "sync_ostream.h"
 
+
+using namespace boost::asio::ip;
+
+const std::string IP_ADDRESS = "127.0.0.1";
+
+const short PORT = 1234;
 
 int main(int argc, char* argv[])
 {
     boost::asio::io_service ioService;
-    boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::tcp::v4(), 12345);
-    boost::asio::ip::tcp::acceptor acceptor(ioService, endpoint);
-    boost::asio::ip::tcp::socket socket(ioService);
+    tcp::socket socket(ioService);
+    socket.connect(tcp::endpoint(address::from_string(IP_ADDRESS), PORT));
 
-    acceptor.accept(socket);
+    
     SharedBuffer buffer;
-    InputListener listener(buffer);
-    DataProcessor dataProcessor(buffer, socket);
+    SyncOstream ostream(std::cout);
+    InputListener listener(buffer, ostream);
+    DataProcessor dataProcessor(buffer, socket, ostream);
 
     std::thread inputThread(&InputListener::run, listener);
     std::thread processingThread(&DataProcessor::run, dataProcessor);
