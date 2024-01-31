@@ -7,9 +7,9 @@ void InputListener::run()
         std::string input;
         ostream_ << "Input your data: ";
         std::getline(std::cin, input);
-        if(!std::all_of(input.begin(), input.end(), ::isdigit) || input.length() > 64 || input.length() == 0)
+        if(!std::all_of(input.begin(), input.end(), ::isdigit) || input.length() > 64)
         {
-            std::cerr << "Incorrect input" << std::endl;
+            ostream_ << "Incorrect input" << std::endl;
             continue;
         }
 
