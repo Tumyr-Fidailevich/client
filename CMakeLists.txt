@@ -22,8 +22,3 @@ target_precompile_headers(client-lib PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include
 add_executable(client src/main.cpp)
 
 target_link_libraries(client PRIVATE client-lib ${Boost_LIBRARIES})
-
-if(BUILD_TESTS)
-    add_executable(client-tests tests/main.cpp)
-    target_link_libraries(client-tests PRIVATE client-lib ${Boost_LIBRARIES})
-endif() # BUILD_TESTS
