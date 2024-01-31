@@ -8,18 +8,29 @@
 class DataProcessor
 {
 public:
-    DataProcessor(SharedBuffer &buffer, boost::asio::ip::tcp::socket &socket, SyncOstream& ostream) : 
-    buffer_(buffer), socket_(socket),  ostream_(ostream) {} 
+    DataProcessor(SharedBuffer &buffer, boost::asio::io_context &ioContext, boost::asio::ip::tcp::endpoint endpoint, SyncOstream& ostream) : 
+    buffer_(buffer), socket_(ioContext), ioContext_(ioContext), endpoint_(endpoint), ostream_(ostream) {} 
     
     void run();
 
 protected:
 
-    static int calculateAmount(const std::string &receivedData) noexcept;
+    void connect();
+
+    void reconnect();
+
+    void processing();
+
+    int calculateAmount(const std::string &receivedData) noexcept;
+
+    void send();
 
 private:
-    boost::asio::ip::tcp::socket& socket_;
+    boost::asio::io_context& ioContext_;
+    boost::asio::ip::tcp::socket socket_;
+    boost::asio::ip::tcp::endpoint endpoint_;
     SharedBuffer& buffer_;
+    std::string data_;
     SyncOstream& ostream_;
 };
 
